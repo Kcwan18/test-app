@@ -47,18 +47,36 @@ jobs:
       #   name: Test
       #   run: echo ${{ steps.image.outputs.digest}}
       - 
-        name: Update Image Version in the related HelmChart
-        uses: fjogeleit/yaml-update-action@main
+        name: Checkout helm chart
+        uses: actions/checkout@v3
         with:
-          valueFile: 'deployment/helm/values.yaml'
-          propertyPath: 'image.tag'
-          value: sha256:987039ab4450d7bef5650f0e7179389c28276a2189064bb497d49e2df5a47be0
           repository: Kcwan18/test-helm
-          createPR: true
-          branch: master
-          targetBranch: master
-          message: "Update Image Digest"
           token: ${{ secrets.GH_TOKEN }}
+          path: ./
+      -
+        name: Get SDK Version from config
+        run: |
+          yq -i -y '.image.tag = sha256:987039ab4450d7bef5650f0e7179389c28276a2189064bb497d49e2df5a47be0' values.yaml
+        
+      - 
+        name: Push helm changes
+        uses: EndBug/add-and-commit@v7
+        with:
+          cwd: ./
+          message: 'update app version'
+          branch: master
+
+        # uses: fjogeleit/yaml-update-action@main
+        # with:
+        #   valueFile: 'deployment/helm/values.yaml'
+        #   propertyPath: 'image.tag'
+        #   value: sha256:987039ab4450d7bef5650f0e7179389c28276a2189064bb497d49e2df5a47be0
+        #   repository: Kcwan18/test-helm
+        #   createPR: true
+        #   branch: master
+        #   targetBranch: master
+        #   message: "Update Image Digest"
+        #   token: ${{ secrets.GH_TOKEN }}
 
     # - name: Update Image Version in the related HelmChart values.yaml
     #   uses: fjogeleit/yaml-update-action@main
