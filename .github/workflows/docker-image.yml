@@ -45,7 +45,7 @@ jobs:
           platforms: linux/amd64
       -
         name: Test
-        run: echo ${{ steps.image.digest}}
+        run: echo ${{ steps.image.outputs.digest}}
     # - uses: actions/checkout@v3
 
     # - name: Set up Docker Buildx
