@@ -38,7 +38,7 @@ jobs:
           context: .
           push: true
           tags: kcwan18/test-app:latest
-          platforms: linux/amd64
+
     # - name: Build the Docker image
     #   run: docker build . --file Dockerfile -t kcwan18/test-app:latest --platform=linux/amd64
     # - name: Set up QEMU
