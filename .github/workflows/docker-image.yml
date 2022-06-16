@@ -48,7 +48,7 @@ jobs:
       #   run: echo ${{ steps.image.outputs.digest}}
       - 
         name: Update Image Version in the related HelmChart
-        uses: stefanprodan/helm-gh-pages@master
+        uses: fjogeleit/yaml-update-action@main
         with:
           valueFile: 'deployment/helm/values.yaml'
           propertyPath: 'image.tag'
