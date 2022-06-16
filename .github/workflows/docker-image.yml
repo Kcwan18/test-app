@@ -50,7 +50,7 @@ jobs:
         name: Update Image Version in the related HelmChart
         uses: fjogeleit/yaml-update-action@main
         with:
-          valueFile: './values.yaml'
+          valueFile: 'values.yaml'
           propertyPath: 'image.tag'
           value: ${{ steps.image.outputs.digest}}
           repository: Kcwan18/test-helm
