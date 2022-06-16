@@ -52,19 +52,16 @@ jobs:
         with:
           repository: Kcwan18/test-helm
           token: ${{ secrets.GH_TOKEN }}
-          path: ./
-      -
-        name: Get SDK Version from config
-        run: |
-          yq '.image.tag = "sha256:987039ab4450d7bef5650f0e7179389c28276a2189064bb497d49e2df5a47be0"' values.yaml
+      # -
+      #   name: Get SDK Version from config
+      #   run: |
+      #     yq '.image.tag = "sha256:987039ab4450d7bef5650f0e7179389c28276a2189064bb497d49e2df5a47be0"' -i ./values.yaml
         
       - 
         name: Push helm changes
-        uses: EndBug/add-and-commit@v7
+        uses: EndBug/add-and-commit@v9
         with:
-          cwd: ./
           message: 'update app version'
-          branch: master
 
         # uses: fjogeleit/yaml-update-action@main
         # with:
