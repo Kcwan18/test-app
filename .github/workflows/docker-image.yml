@@ -36,11 +36,16 @@ jobs:
           password: ${{secrets.DOCKER_PASSWORD}}
       -
         name: Build and push
+        id: image
         uses: docker/build-push-action@v3
         with:
           context: .
           push: true
           tags: kcwan18/test-app:latest
+          platforms: linux/amd64
+      -
+        name: Test
+        run: echo ${{ steps.image.digest}}
     # - uses: actions/checkout@v3
 
     # - name: Set up Docker Buildx
