@@ -1,0 +1,36 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+# Env variable
+env:
+  DOCKER_USER: ${{secrets.DOCKER_USER}}
+  DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+  REPO_NAME: ${{secrets.REPO_NAME}}
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: docker login
+      run: | # log into docker hub account
+        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD 
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile -t kcwan18/test-app:latest --platform=linux/amd64
+    - name: Deploy to Dockerhub
+      run: docker push kcwan18/test-app:latest
+    - name: "Sync ArgoCD Application"
+      uses: omegion/argocd-app-actions@master
+      with:
+        address: "argocd.k8s.dev.one2cloud.co"
+        token: ${{ secrets.ARGOCD_TOKEN }}
+        action: sync
+        appName: "test-helm"
