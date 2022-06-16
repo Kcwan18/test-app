@@ -56,7 +56,12 @@ jobs:
       #   name: Get SDK Version from config
       #   run: |
       #     yq '.image.tag = "sha256:987039ab4450d7bef5650f0e7179389c28276a2189064bb497d49e2df5a47be0"' -i ./values.yaml
-        
+      -
+        name: Get SDK Version from config
+        id: lookupSdkVersion
+        uses: mikefarah/yq@master
+        with:
+          cmd: yq '.image.tag = "sha256:987039ab4450d7bef5650f0e7179389c28276a2189064bb497d49e2df5a47be0"' 'values.yaml'
       - 
         name: Push helm changes
         uses: EndBug/add-and-commit@v9
