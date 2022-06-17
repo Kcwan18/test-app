@@ -50,11 +50,11 @@ jobs:
         with:
           value: ${{ steps.image.outputs.digest}}
           start: '0'
-          length: '11'
+          length: '14'
       -
         name: Test2
         run: |
-          echo ${{ steps.substr.output.result}}
+          echo ${{ steps.substr.outputs.result}}
   
       - name: Checkout Target Repository
         uses: actions/checkout@v3
