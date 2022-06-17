@@ -58,10 +58,10 @@ jobs:
         with:
           valueFile: 'values.yaml'
           propertyPath: 'image.tag'
+          createPR: false
           value: ${{ steps.image.outputs.digest}}
           repository: Kcwan18/test-helm
           branch: '@deploy/develop'
-          targetBranch: '@deploy/develop'
           createPR: true
           message: "Update Image Digest"
           token: ${{ secrets.GH_TOKEN }}
