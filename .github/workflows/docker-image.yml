@@ -62,7 +62,6 @@ jobs:
           value: ${{ steps.image.outputs.digest}}
           repository: Kcwan18/test-helm
           branch: '@deploy/develop'
-          createPR: true
           message: "Update Image Digest"
           token: ${{ secrets.GH_TOKEN }}
 
