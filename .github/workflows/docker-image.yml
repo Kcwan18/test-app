@@ -68,7 +68,7 @@ jobs:
           valueFile: 'values.yaml'
           propertyPath: 'image.tag'
           createPR: false
-          value: ${{ steps.substr.outputs.result}}
+          value: ${{ steps.image.outputs.digest}}
           repository: Kcwan18/test-helm
           branch: '@deploy/develop'
           message: "Update Image Digest"
