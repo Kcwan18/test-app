@@ -46,39 +46,35 @@ jobs:
       # -
       #   name: Test
       #   run: echo ${{ steps.image.outputs.digest}}
-      - 
-        name: Checkout helm chart
-        uses: actions/checkout@v3
-        with:
-          repository: Kcwan18/test-helm
-          token: ${{ secrets.GH_TOKEN }}
+      # - 
+        # name: Checkout helm chart
+        # uses: actions/checkout@v3
+        # with:
+        #   repository: Kcwan18/test-helm
+        #   token: ${{ secrets.GH_TOKEN }}
       # -
       #   name: Get SDK Version from config
       #   run: |
       #     yq '.image.tag = "sha256:987039ab4450d7bef5650f0e7179389c28276a2189064bb497d49e2df5a47be0"' -i ./values.yaml
-      -
-        name: Get SDK Version from config
-        id: lookupSdkVersion
-        uses: mikefarah/yq@master
+
+      - name: Checkout Target Repository
+        uses: actions/checkout@v3
         with:
-          cmd: yq '.image.tag = "sha256:987039ab4450d7bef5650f0e7179389c28276a2189064bb497d49e2df5a47be0"' 'values.yaml'
+          repository: Kcwan18/test-helm
+          token: ${{ secrets.GITHUB_TOKEN }} 
       - 
         name: Push helm changes
-        uses: EndBug/add-and-commit@v9
+        uses: fjogeleit/yaml-update-action@main
         with:
-          message: 'update app version'
-
-        # uses: fjogeleit/yaml-update-action@main
-        # with:
-        #   valueFile: 'deployment/helm/values.yaml'
-        #   propertyPath: 'image.tag'
-        #   value: sha256:987039ab4450d7bef5650f0e7179389c28276a2189064bb497d49e2df5a47be0
-        #   repository: Kcwan18/test-helm
-        #   createPR: true
-        #   branch: master
-        #   targetBranch: master
-        #   message: "Update Image Digest"
-        #   token: ${{ secrets.GH_TOKEN }}
+          valueFile: 'values.yaml'
+          propertyPath: 'image.tag'
+          value: sha256:987039ab4450d7bef5650f0e7179389c28276a2189064bb497d49e2df5a47be0
+          repository: Kcwan18/test-helm
+          createPR: true
+          branch: master
+          targetBranch: master
+          message: "Update Image Digest"
+          token: ${{ secrets.GH_TOKEN }}
 
     # - name: Update Image Version in the related HelmChart values.yaml
     #   uses: fjogeleit/yaml-update-action@main
