@@ -44,8 +44,17 @@ jobs:
           tags: kcwan18/test-app:latest
           platforms: linux/amd64
       -
-        name: Test
-        run: echo ${{ steps.image.outputs.digest}}
+        name: Test1
+        id: substr
+        uses: web3j/substr-action@v1.2
+        with:
+          value: ${{ steps.image.outputs.digest}}
+          start: '0'
+          length: '11'
+      -
+        name: Test2
+        run: |
+          echo ${{ steps.substr.output.result}}
   
       - name: Checkout Target Repository
         uses: actions/checkout@v3
