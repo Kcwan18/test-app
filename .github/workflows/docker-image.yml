@@ -70,9 +70,9 @@ jobs:
           propertyPath: 'image.tag'
           value: sha256:987039ab4450d7bef5650f0e7179389c28276a2189064bb497d49e2df5a47be0
           repository: Kcwan18/test-helm
-          createPR: true
-          branch: master
+          branch: deployment/test
           targetBranch: master
+          createPR: true
           message: "Update Image Digest"
           token: ${{ secrets.GH_TOKEN }}
 
