@@ -49,7 +49,7 @@ jobs:
         uses: web3j/substr-action@v1.2
         with:
           value: ${{ steps.image.outputs.digest}}
-          start: '6'
+          start: '7'
           length: '7'
       -
         name: Test2
