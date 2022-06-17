@@ -22,41 +22,31 @@ jobs:
       -
         name: Checkout
         uses: actions/checkout@v3
-      # -
-      #   name: Set up QEMU
-      #   uses: docker/setup-qemu-action@v2
-      # -
-      #   name: Set up Docker Buildx
-      #   uses: docker/setup-buildx-action@v2
-      # -
-      #   name: Login to DockerHub
-      #   uses: docker/login-action@v2
-      #   with:
-      #     username: ${{secrets.DOCKER_USER}}
-      #     password: ${{secrets.DOCKER_PASSWORD}}
-      # -
-      #   name: Build and push
-      #   id: image
-      #   uses: docker/build-push-action@v3
-      #   with:
-      #     context: .
-      #     push: true
-      #     tags: kcwan18/test-app:latest
-      #     platforms: linux/amd64
-      # -
-      #   name: Test
-      #   run: echo ${{ steps.image.outputs.digest}}
-      # - 
-        # name: Checkout helm chart
-        # uses: actions/checkout@v3
-        # with:
-        #   repository: Kcwan18/test-helm
-        #   token: ${{ secrets.GH_TOKEN }}
-      # -
-      #   name: Get SDK Version from config
-      #   run: |
-      #     yq '.image.tag = "sha256:987039ab4450d7bef5650f0e7179389c28276a2189064bb497d49e2df5a47be0"' -i ./values.yaml
-
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      -
+        name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{secrets.DOCKER_USER}}
+          password: ${{secrets.DOCKER_PASSWORD}}
+      -
+        name: Build and push
+        id: image
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          tags: kcwan18/test-app:latest
+          platforms: linux/amd64
+      -
+        name: Test
+        run: echo ${{ steps.image.outputs.digest}}
+  
       - name: Checkout Target Repository
         uses: actions/checkout@v3
         with:
@@ -68,9 +58,9 @@ jobs:
         with:
           valueFile: 'values.yaml'
           propertyPath: 'image.tag'
-          value: sha256:987039ab4450d7bef5650f0e7179389c28276a2189064bb497d49e2df5a47be0
+          value: ${{ steps.image.outputs.digest}}
           repository: Kcwan18/test-helm
-          branch: deployment/test
+          branch: '@deploy/develop'
           targetBranch: master
           createPR: true
           message: "Update Image Digest"
