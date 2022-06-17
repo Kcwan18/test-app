@@ -49,8 +49,8 @@ jobs:
         uses: web3j/substr-action@v1.2
         with:
           value: ${{ steps.image.outputs.digest}}
-          start: '0'
-          length: '14'
+          start: '6'
+          length: '7'
       -
         name: Test2
         run: |
@@ -68,7 +68,7 @@ jobs:
           valueFile: 'values.yaml'
           propertyPath: 'image.tag'
           createPR: false
-          value: ${{ steps.image.outputs.digest}}
+          value: ${{ steps.substr.outputs.result}}
           repository: Kcwan18/test-helm
           branch: '@deploy/develop'
           message: "Update Image Digest"
